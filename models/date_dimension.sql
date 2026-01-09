@@ -1,33 +1,26 @@
-with cte as (
-  select
-    to_timestamp(started_at) as started_at,
-    date(started_at) as date_started_at,
-    hour(to_timestamp(started_at)) as hour_started_at,
-    
-    
-    -- case
-    --   when dayname(to_timestamp(started_at)) in ('Sat', 'Sun') then 'WEEKEND'
-    --   else 'BUSINESS DAY' 
-    -- end as date_type,
 
-    {{date_type('STARTED_AT')}} as date_type,
-
-    -- case 
-    --   when month(to_timestamp(started_at)) in ('12', '1', '2') then 'WINTER'
-    --   when month(to_timestamp(started_at)) in ('3', '4', '5') then 'SPRING'
-    --   when month(to_timestamp(started_at)) in ('6', '7', '8') then 'SUMMER'
-    --   else 'AUTUMN'
-    -- end as station_of_year,
-
-    {{get_season('STARTED_AT')}} as station_of_year,
-
-    {{function1('STARTED_AT')}}
-  
-  from {{ source('demo', 'bike')}}
-  where started_at <> 'started_at'
-)
-
-select 
-  *
+WITH CTE AS (
+select
+TO_TIMESTAMP(STARTED_AT) AS STARTED_AT,
+DATE(TO_TIMESTAMP(STARTED_AT)) AS DATE_STARTED_AT,
+HOUR(TO_TIMESTAMP(STARTED_AT)) AS HOUR_STARTED_AT,
+CASE 
+WHEN DAYNAME(TO_TIMESTAMP(STARTED_AT)) in ('Sat','Sun')
+THEN 'WEEKEND'
+ELSE 'BUSINESSDAY'
+END AS DAY_TYPE,
+CASE WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) in (12,1,2)
+    THEN 'WINTER'
+    WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) in (3,4,5)
+    THEN 'SPRING'
+    WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) in (6,7,8)
+    THEN 'SUMMER'
+    ELSE 'AUTUMN' 
+    END AS STATION_OF_YEAR
 from
-  cte
+{{ ref('stg_bike') }}
+where STARTED_AT != 'started_at' and STARTED_AT != '"started_at"'
+)
+select 
+*
+from CTE
