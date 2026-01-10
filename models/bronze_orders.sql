@@ -1,4 +1,4 @@
 select 
   *
 from 
-  demo.landing.orders
+  {{ source('landing', 'orders') }}
