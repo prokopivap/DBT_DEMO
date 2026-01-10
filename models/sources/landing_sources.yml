@@ -2,10 +2,46 @@ version: 2
 
 sources:
   - name: landing
-    database: demo  
+    database: demo
     schema: landing  
     tables:
       - name: orders
+        columns:
+          - name: id
+            tests:
+              - unique:
+                 config:
+                  severity: warn
+              - not_null:
+                 config:
+                  severity: warn
       - name: products
+        columns:
+          - name: id
+            tests:
+              - unique:
+                 config:
+                  severity: warn
+              - not_null:
+                 config:
+                  severity: warn
       - name: reviews
+        columns:
+          - name: id
+            tests:
+              - unique:
+                 config:
+                  severity: warn
+              - not_null:
+                 config:
+                  severity: warn
       - name: users
+        columns:
+          - name: id
+            tests:
+              - unique:
+                 config:
+                  severity: warn
+              - not_null:
+                 config:
+                  severity: warn
