@@ -5,6 +5,7 @@ sources:
     database: demo
     schema: landing  
     tables:
+
       - name: orders
         columns:
           - name: id
