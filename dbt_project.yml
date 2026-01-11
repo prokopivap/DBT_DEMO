@@ -48,3 +48,7 @@ models:
     gold:
       +materialized: table
       schema: gold
+  
+seeds:
+  my_new_project:
+    +schema: bronze
